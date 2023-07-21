@@ -7,7 +7,7 @@ kubectl get pods -n ingress-nginx | grep Running | grep ingress-nginx-controller
 for pod in $(cat /root/controller-pods.list); do kubectl -n ingress-nginx get pod $pod --template '{{.status.hostIP}}'; echo ""; done > /root/controller-ip.list && cat /root/controller-ip.list
 
 #Collecting a variable
-ingress_ips=($(sed ':a;N;$!ba;s/\n/","/g; s/^/"/; s/$/"/' /root/controller-ip.list))
+ingress_ips=$(sed ':a;N;$!ba;s/\n/","/g; s/^/"/; s/$/"/' /root/controller-ip.list)
 
 #Patch ingress-controller service
 kubectl patch service ingress-nginx -n ingress-nginx -p '{"spec": {"externalIPs": ['$ingress_ips']}}'
