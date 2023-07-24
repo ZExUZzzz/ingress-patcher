@@ -10,4 +10,4 @@ for pod in $(cat /root/controller-pods.list); do kubectl -n ingress-nginx get po
 ingress_ips=$(sed ':a;N;$!ba;s/\n/","/g; s/^/"/; s/$/"/' /root/controller-ip.list)
 
 #Patch ingress-controller service
-kubectl patch service ingress-nginx -n ingress-nginx -p '{"spec": {"externalIPs": ['$ingress_ips']}}'
+kubectl patch service ingress-nginx -n ingress-nginx -p '{"spec": {"externalIPs": ["'$ingress_ips'"]}}'
